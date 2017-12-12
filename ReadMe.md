@@ -1,1 +1,1 @@
-Object Oriented Project (Documentation in the folder).
+Project in Object Oriented
