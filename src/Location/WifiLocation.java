@@ -81,8 +81,8 @@ public class WifiLocation {
 	private void FindTop3Signals()
 	{
 		//Find the signal limit of the top 3 signals
-		int SignalLimit;
-		int[] signals = new int[samples.size()];
+		double SignalLimit;
+		double[] signals = new double[samples.size()];
 		for(int i=0;i<samples.size();i++)
 			signals[i] = samples.elementAt(i).getSignal();
 		Arrays.sort(signals);

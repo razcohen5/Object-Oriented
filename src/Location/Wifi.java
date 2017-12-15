@@ -8,10 +8,10 @@ public class Wifi {
 
 	private String mac;
 	private double lat, lon, alt;
-	private int signal;
+	private double signal;
 	private double power;
 	private double wlat, wlon, walt;
-	private int diff;
+	private double diff;
 	private double w;
 	
 	public Wifi()
@@ -26,7 +26,7 @@ public class Wifi {
 		this.lat = Double.parseDouble(lat);
 		this.lon = Double.parseDouble(lon);
 		this.alt = Double.parseDouble(alt);
-		this.signal = Integer.parseInt(signal);
+		this.signal = Double.parseDouble(signal);
 		
 		this.power = 1/Math.pow(this.signal, 2);
 		this.wlat = power*this.lat;
@@ -34,7 +34,7 @@ public class Wifi {
 		this.walt = power*this.alt;
 	}
 
-	public Wifi(String mac, double lat, double lon, double alt, int signal)
+	public Wifi(String mac, double lat, double lon, double alt, double signal)
 	{
 		this.mac = mac;
 		this.lat = lat;
@@ -76,11 +76,11 @@ public class Wifi {
 		this.alt = alt;
 	}
 
-	public int getSignal() {
+	public double getSignal() {
 		return signal;
 	}
 
-	public void setSignal(int signal) {
+	public void setSignal(double signal) {
 		this.signal = signal;
 	}
 
@@ -116,11 +116,11 @@ public class Wifi {
 		this.walt = walt;
 	}
 
-	public int getDiff() {
+	public double getDiff() {
 		return diff;
 	}
 	
-	public void setDiff(int diff) {
+	public void setDiff(double diff) {
 		this.diff = diff;
 	}
 	
