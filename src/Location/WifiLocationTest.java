@@ -1,19 +1,27 @@
 package Location;
 
+import KML.ArrangeWiFis;
+import KML.WiFis;
+
 /*
- * Tests the WifiLocation class.
+ * Tests the WifiLocations classes.
  */
 
-public class WifiLocationTest {
+public class WiFiLocationTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		String ArrangedUnitedCSV = "C:\\Users\\Raz\\Desktop\\WigleOutput\\ArrangedUnitedCSV.csv";
-		String WifiLocationCSV = "C:\\Users\\Raz\\Desktop\\LocationOutput\\WifiLocationCSV.csv";
+
 		//C:\\Users\\Raz\\Desktop\\ex2\\data\\BM1\\comb\\_comb_all_.csv
-		WifiLocationCSV wl = new WifiLocationCSV(ArrangedUnitedCSV);
-		wl.WifiLocationToCSV(WifiLocationCSV);
+		String folder = "C:\\Users\\Raz\\Desktop\\Data";
+		String wifilocationcsv = "C:\\Users\\Raz\\Desktop\\Output\\LocationOutput\\WiFiLocationCSV.csv";
+		WiFis w = new WiFis();
+		w.ReadFolder(folder);
+		ArrangeWiFis aw = new ArrangeWiFis(w);
+		aw.ArrangeSamples();
+		WiFiLocationCSV wl = new WiFiLocationCSV(aw);
+		wl.WifiLocationToCSV(wifilocationcsv);
 	}
 
 }

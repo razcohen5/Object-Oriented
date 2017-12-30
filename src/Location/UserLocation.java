@@ -1,5 +1,8 @@
 package Location;
 
+import KML.ArrangeWiFis;
+import KML.WiFi;
+
 /*
  * The class role is to estimate the user location by 3 different wifi
  * with the 3 strongest samples of each wifi using weighted average
@@ -8,9 +11,9 @@ package Location;
 
 public class UserLocation {
 	String mac1,mac2,mac3; //3 mac addresses that are used to find the user location
-	Wifi[] wifi1; //mac1's samples
-	Wifi[] wifi2; //mac2's samples
-	Wifi[] wifi3; //mac3's samples
+	WiFi[] wifi1; //mac1's samples
+	WiFi[] wifi2; //mac2's samples
+	WiFi[] wifi3; //mac3's samples
 	double wifi1Location[]; //mac1's location after using findlocation function on him
 	double wifi2Location[]; //mac2's location after using findlocation function on him
 	double wifi3Location[]; //mac3's location after using findlocation function on him
@@ -22,19 +25,19 @@ public class UserLocation {
 	double power = 2;
 	int mindiff = 3;
 	
-	public UserLocation(String mac1, String mac2, String mac3, String path)
+	public UserLocation(String mac1, String mac2, String mac3, ArrangeWiFis ArrangedDatabase)
 	{
-		WifiLocation wl1 = new WifiLocation(mac1,path);
-		WifiLocation wl2 = new WifiLocation(mac2,path);
-		WifiLocation wl3 = new WifiLocation(mac3,path);
+		WiFiLocation wl1 = new WiFiLocation(mac1,ArrangedDatabase);
+		WiFiLocation wl2 = new WiFiLocation(mac2,ArrangedDatabase);
+		WiFiLocation wl3 = new WiFiLocation(mac3,ArrangedDatabase);
 
 		wifi1Location = wl1.FindLocation();
 		wifi2Location = wl2.FindLocation();
 		wifi3Location = wl3.FindLocation();
 
-		wifi1 = new Wifi[3];
-		wifi2 = new Wifi[3];
-		wifi3 = new Wifi[3];
+		wifi1 = new WiFi[3];
+		wifi2 = new WiFi[3];
+		wifi3 = new WiFi[3];
 		
 		int i,j,k;
 
@@ -46,7 +49,7 @@ public class UserLocation {
 		}
 		for(;i<3;i++)
 		{
-			wifi1[i] = new Wifi();
+			wifi1[i] = new WiFi();
 			wifi1[i].setW(norm/(f1(wifi1[i].getDiff())*f2(input[i])));
 		}
 
@@ -58,7 +61,7 @@ public class UserLocation {
 		}
 		for(;j<3;j++)
 		{
-			wifi2[j] = new Wifi();
+			wifi2[j] = new WiFi();
 			wifi2[j].setW(norm/(f1(wifi2[j].getDiff())*f2(input[j])));
 		}
 
@@ -70,26 +73,26 @@ public class UserLocation {
 		}
 		for(;k<3;k++)
 		{
-			wifi3[k] = new Wifi();
+			wifi3[k] = new WiFi();
 			wifi3[k].setW(norm/(f1(wifi3[k].getDiff())*f2(input[k])));
 		}
 	}
 
 	public double[] FindLocation()
 	{
-		Wifi final1 = new Wifi(mac1,wifi1Location[0],wifi1Location[1],wifi1Location[2],0);
+		WiFi final1 = new WiFi(mac1,wifi1Location[0],wifi1Location[1],wifi1Location[2],0);
 		final1.setW(wifi1[0].getW()*wifi1[1].getW()*wifi1[2].getW());
 		final1.setWlat(final1.getW()*final1.getLat());
 		final1.setWlon(final1.getW()*final1.getLon());
 		final1.setWalt(final1.getW()*final1.getAlt());
 
-		Wifi final2 = new Wifi(mac2,wifi2Location[0],wifi2Location[1],wifi2Location[2],0);
+		WiFi final2 = new WiFi(mac2,wifi2Location[0],wifi2Location[1],wifi2Location[2],0);
 		final2.setW(wifi2[0].getW()*wifi2[1].getW()*wifi2[2].getW());
 		final2.setWlat(final2.getW()*final2.getLat());
 		final2.setWlon(final2.getW()*final2.getLon());
 		final2.setWalt(final2.getW()*final2.getAlt());
 
-		Wifi final3 = new Wifi(mac3,wifi3Location[0],wifi3Location[1],wifi3Location[2],0);
+		WiFi final3 = new WiFi(mac3,wifi3Location[0],wifi3Location[1],wifi3Location[2],0);
 		final3.setW(wifi3[0].getW()*wifi3[1].getW()*wifi3[2].getW());
 		final3.setWlat(final3.getW()*final3.getLat());
 		final3.setWlon(final3.getW()*final3.getLon());

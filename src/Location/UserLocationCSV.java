@@ -7,19 +7,20 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Vector;
 
+import KML.ArrangeWiFis;
+
 /*
- * 
+ * The class role is to estimate the user location for every group of WiFis in the arranged database
+ * and write the results to CSV file (Using UserLocation on every WiFi in the database).
  */
 
 public class UserLocationCSV {
 
-	private File ArrangedCSV;
-	private String path;
+	private ArrangeWiFis ArrangedDatabase;
 
-	public UserLocationCSV(String path)
+	public UserLocationCSV(ArrangeWiFis ArrangedDatabase)
 	{
-		ArrangedCSV = new File(path);
-		this.path = path;
+		this.ArrangedDatabase = ArrangedDatabase;
 	}
 
 	public void UserLocationToCSV(String OutputPath)
@@ -27,45 +28,36 @@ public class UserLocationCSV {
 		try {
 			File OutputFile = new File(OutputPath);
 			PrintWriter outs = new PrintWriter(OutputFile);
-			Scanner sc = new Scanner(ArrangedCSV);
-			String CurrentLine;
-			String[] SplitLine;
-			sc.nextLine();
 			String Headlines = "Time, ID, Lat, Lon, Alt, #MACS, "
 					+ "SSID1, MAC1, SSID2, MAC2, SSID3, MAC3";
 			outs.println(Headlines);
-			while(sc.hasNext())
-			{	
-				CurrentLine = sc.nextLine();
-				SplitLine = CurrentLine.split(",");
-				int NumofWifiesinLine = Integer.parseInt(SplitLine[5]);
-				if(NumofWifiesinLine>=3)
+			for(int i=0;i<ArrangedDatabase.getArrangedSamples().size();i++)	
+				if(ArrangedDatabase.getArrangedSamples().elementAt(i).size()>=3)
 				{
-					String CurrentMacs[] = {SplitLine[7],SplitLine[11],SplitLine[15]};			
-					UserLocation CurrentLocation = new UserLocation(CurrentMacs[0], CurrentMacs[1], CurrentMacs[2], path);
+					String CurrentMacs[] = {ArrangedDatabase.getArrangedSamples().elementAt(i).elementAt(0).getMac(),ArrangedDatabase.getArrangedSamples().elementAt(i).elementAt(1).getMac(),ArrangedDatabase.getArrangedSamples().elementAt(i).elementAt(2).getMac()};			
+					UserLocation CurrentLocation = new UserLocation(CurrentMacs[0], CurrentMacs[1], CurrentMacs[2], ArrangedDatabase);
 					double UserLocation[] = CurrentLocation.FindLocation();
-					outs.println(			SplitLine[0]
-									+ "," + SplitLine[1]
-									+ "," + UserLocation[0]
+					outs.println(ArrangedDatabase.getArrangedSamples().elementAt(i).elementAt(0).getTime()
+							+ "," + ArrangedDatabase.getArrangedSamples().elementAt(i).elementAt(0).getId()
+							+ "," + UserLocation[0]
 									+ "," + UserLocation[1]
-									+ "," + UserLocation[2]
-									+ "," + CurrentMacs.length
-									+ "," + SplitLine[6]
-									+ "," + CurrentMacs[0]
-									+ "," + SplitLine[10]
-									+ "," + CurrentMacs[1]
-									+ "," + SplitLine[14]
-									+ "," + CurrentMacs[2]);		
+											+ "," + UserLocation[2]
+													+ "," + CurrentMacs.length
+													+ "," + ArrangedDatabase.getArrangedSamples().elementAt(i).elementAt(0).getSsid()
+													+ "," + CurrentMacs[0]
+															+ "," + ArrangedDatabase.getArrangedSamples().elementAt(i).elementAt(1).getSsid()
+															+ "," + CurrentMacs[1]
+																	+ "," + ArrangedDatabase.getArrangedSamples().elementAt(i).elementAt(2).getSsid()
+																	+ "," + CurrentMacs[2]);
 				}
-			}		
 			outs.close();
-			sc.close();
 		}
 		catch(IOException ex)
 		{
 			System.out.print("Error reading file\n" + ex);
 			System.exit(2);
 		}
+
 
 		System.out.println("User Location CSV Was Created At " + OutputPath);
 	}	

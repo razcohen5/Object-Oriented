@@ -5,6 +5,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+import KML.ArrangeWiFis;
+import KML.WiFis;
+/*
+ * The class role is to compare file of my results to ex 2 algorithm 1 to test file of results.
+ */
 public class Ex2TestAlgo1 {
 
 	File MyFile;
@@ -62,13 +67,17 @@ public class Ex2TestAlgo1 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String ScannedFile = "C:\\Users\\Raz\\Desktop\\LocationOutput\\Ex2TestOutput\\_comb_all_BM2_.csv";
-		String MyFile = "C:\\Users\\Raz\\Desktop\\LocationOutput\\Ex2TestOutput\\MyAlgo1.csv";
-		String TestFile = "C:\\Users\\Raz\\Desktop\\LocationOutput\\Ex2TestOutput\\Algo1_4_BM2_comb_all_.csv";
-		String CompareFile = "C:\\Users\\Raz\\Desktop\\LocationOutput\\Ex2TestOutput\\CompareAlgo1.csv";
+		String ScannedFolder = "C:\\Users\\Raz\\Desktop\\Output\\LocationOutput\\Ex2TestOutput\\BM2";
+		String MyFile = "C:\\Users\\Raz\\Desktop\\Output\\LocationOutput\\Ex2TestOutput\\MyAlgo1.csv";
+		String TestFile = "C:\\Users\\Raz\\Desktop\\Output\\LocationOutput\\Ex2TestOutput\\Algo1_4_BM2_comb_all_.csv";
+		String CompareFile = "C:\\Users\\Raz\\Desktop\\Output\\LocationOutput\\Ex2TestOutput\\CompareAlgo1.csv";
 		
-		WifiLocationCSV mine = new WifiLocationCSV(ScannedFile);
-		mine.WifiLocationToCSV(MyFile);
+		WiFis w = new WiFis();
+		w.ReadFolder(ScannedFolder);
+		ArrangeWiFis aw = new ArrangeWiFis(w);
+		aw.ArrangeSamples();
+		WiFiLocationCSV wl = new WiFiLocationCSV(aw);
+		wl.WifiLocationToCSV(MyFile);
 		
 		Ex2TestAlgo1 t = new Ex2TestAlgo1(MyFile,TestFile);
 		t.CompareCSV(CompareFile);
