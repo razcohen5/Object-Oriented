@@ -1,2 +1,2 @@
-Object Oriented Project (Ready to run version is in github-project directory)
+Object Oriented Project (Ready to run version - github-project)
 
