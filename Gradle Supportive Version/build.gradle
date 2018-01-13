@@ -1,0 +1,17 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceSets.main.java.srcDirs = ['src']
+
+mainClassName = "GUI.GUITest"
+
+repositories {
+	jcenter()
+	mavenCentral()
+}
+
+dependencies{
+	compile 'de.micromata.jak:JavaAPIforKml:2.2.0'
+	compile 'mysql:mysql-connector-java:5.1.45'
+}
